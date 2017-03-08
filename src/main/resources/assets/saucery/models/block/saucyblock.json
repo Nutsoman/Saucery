@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "minecraft:blocks/sponge",
+    "down": "minecraft:blocks/cobblestone",
+    "up": "minecraft:blocks/sponge",
+    "east": "minecraft:blocks/cobblestone",
+    "west": "minecraft:blocks/sponge",
+    "north": "minecraft:blocks/cobblestone",
+    "south": "minecraft:blocks/sponge"
+  }
+}
