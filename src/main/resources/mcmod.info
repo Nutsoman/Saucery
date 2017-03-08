@@ -1,0 +1,16 @@
+[
+{
+  "modid": "saucery",
+  "name": "Saucery",
+  "description": "A large scale cooking and worship simulator.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Arheo","TTFTCUTS"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
