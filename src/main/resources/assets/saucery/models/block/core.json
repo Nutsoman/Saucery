@@ -1,9 +1,9 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "0": "blocks/core_side",
-        "1": "blocks/core_bottom",
-        "2": "blocks/core_top"
+        "0": "saucery:blocks/core_side",
+        "1": "saucery:blocks/core_bottom",
+        "2": "saucery:blocks/core_top"
     },
     "elements": [
         {

@@ -23,14 +23,23 @@ public class BlockCore extends SaucyBlockWithTile<TileCore>{
     public BlockCore() {
         super(Material.ROCK, "core");
         this.registerTile(TileCore.class);
+        this.setLightOpacity(0);
     }
 
+    @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         return AABB;
     }
 
+    @Override
     public boolean isFullCube(IBlockState state)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState state)
     {
         return false;
     }
