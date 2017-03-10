@@ -4,7 +4,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 
@@ -44,4 +48,24 @@ public abstract class SaucyTile extends TileEntity {
     public abstract void readCustomNBT(NBTTagCompound tag);
 
     public abstract void writeCustomNBT(NBTTagCompound tag);
+
+    public IItemHandler getItemHandler(EnumFacing facing) {
+        return null;
+    }
+
+    @Override
+    public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+        if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            IItemHandler handler = this.getItemHandler(facing);
+            if(handler != null) {
+                return (T)handler;
+            }
+        }
+        return super.getCapability(capability, facing);
+    }
+
+    @Override
+    public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+        return this.getCapability(capability, facing)!= null;
+    }
 }
