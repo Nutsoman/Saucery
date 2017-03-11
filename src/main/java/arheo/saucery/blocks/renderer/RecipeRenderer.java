@@ -17,8 +17,13 @@ public class RecipeRenderer extends TileEntitySpecialRenderer<TileCore>
     private static final ResourceLocation TEXTURE_BOOK = new ResourceLocation("textures/entity/enchanting_table_book.png");
     private final ModelBook modelBook = new ModelBook();
 
-    public void renderTileEntityAt(TileCore te, double x, double y, double z, float partialTicks, int destroyStage)
-    {
+    public void renderTileEntityAt(TileCore te, double x, double y, double z, float partialTicks, int destroyStage) {
+        if (!te.getItemHandler(null).getStackInSlot(0).isEmpty()) {
+            this.renderBook(te, x, y, z, partialTicks, destroyStage);
+        }
+    }
+
+    protected void renderBook(TileCore te, double x, double y, double z, float partialTicks, int destroyStage) {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float)x + 0.5F, (float)y + 0.65F, (float)z + 0.5F);
         float f = (float)te.tickCount + partialTicks;

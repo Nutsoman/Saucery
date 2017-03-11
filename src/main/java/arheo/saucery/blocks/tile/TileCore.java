@@ -1,6 +1,7 @@
 package arheo.saucery.blocks.tile;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -13,7 +14,42 @@ import java.util.Random;
 
 public class TileCore extends SaucyTileContainer implements ITickable {
 
-    public int counter = 0;
+    protected static final Random rand = new Random();
+
+    public TileCore() {
+        super(1);
+    }
+
+    @Override
+    public void readCustomNBT(NBTTagCompound tag) {
+        super.readCustomNBT(tag);
+    }
+
+    @Override
+    public void writeCustomNBT(NBTTagCompound tag) {
+        super.writeCustomNBT(tag);
+    }
+
+    @Override
+    public void update()
+    {
+        this.updateBook();
+    }
+
+    // ############### slots ############### //
+
+    @Override
+    public boolean canInsertItem(ItemStack stack, int slot) {
+        return stack.getItem() == Items.BOOK;
+    }
+
+    @Override
+    public int getStackSizeLimit(int slot) {
+        return 1;
+    }
+
+    // ############### book stuff ############### //
+
     public int tickCount;
     public float pageFlip;
     public float pageFlipPrev;
@@ -24,29 +60,8 @@ public class TileCore extends SaucyTileContainer implements ITickable {
     public float bookRotation;
     public float bookRotationPrev;
     public float tRot;
-    protected static final Random rand = new Random();
-    protected ItemStack bookslot = ItemStack.EMPTY;
-    public static final int SIZE = 1;
 
-    public TileCore() {
-        super(1);
-    }
-
-    @Override
-    public void readCustomNBT(NBTTagCompound tag) {
-        super.readCustomNBT(tag);
-        counter = tag.getInteger("counter");
-    }
-
-    @Override
-    public void writeCustomNBT(NBTTagCompound tag) {
-        super.writeCustomNBT(tag);
-        tag.setInteger("counter", counter);
-    }
-
-    @Override
-    public void update()
-    {
+    protected void updateBook() {
         this.bookSpreadPrev = this.bookSpread;
         this.bookRotationPrev = this.bookRotation;
         EntityPlayer entityplayer = this.world.getClosestPlayer((double)((float)this.pos.getX() + 0.5F), (double)((float)this.pos.getY() + 0.5F), (double)((float)this.pos.getZ() + 0.5F), 3.0D, false);

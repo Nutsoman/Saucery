@@ -15,8 +15,60 @@ import javax.annotation.Nullable;
 
 public class GuiHandler implements IGuiHandler {
 
+    public enum GuiTypes {
+        CORE(
+                (EntityPlayer p, TileEntity t) -> new ContainerCore(p, t),
+                (EntityPlayer p, TileEntity t, Container c) -> new GuiCore(p, t, c)
+        );
+
+        //##################################################################################################
+
+        public final boolean usesTile;
+        public final ContainerGetter container;
+        public final GuiGetter gui;
+
+        GuiTypes(ContainerGetter container, GuiGetter gui){
+
+            this(container, gui, true);
+
+        }
+        GuiTypes(ContainerGetter container, GuiGetter gui, boolean usesTile){
+            this.usesTile = usesTile;
+            this.container = container;
+            this.gui = gui;
+        }
+
+        public Container getServer(EntityPlayer player, TileEntity tile) { return this.container == null?null:this.container.operation(player, tile); }
+        public GuiContainer getClient(EntityPlayer player, TileEntity tile) {
+            return this.gui == null?null:this.gui.operation(player, tile, this.getServer(player, tile));
+        }
+
+        private interface ContainerGetter {
+            Container operation(EntityPlayer player, TileEntity tile);
+        }
+
+        private interface GuiGetter {
+            GuiContainer operation(EntityPlayer player, TileEntity tile, Container container);
+        }
+
+    }
+
     public static void init() {
         NetworkRegistry.INSTANCE.registerGuiHandler(Saucery.instance, new GuiHandler());
+    }
+
+    public static void openGui(EntityPlayer player, World world, GuiTypes gui, BlockPos pos) {
+        int x=0,y=0,z=0;
+        if (pos != null) {
+            x = pos.getX();
+            y = pos.getY();
+            z = pos.getZ();
+        }
+        player.openGui(Saucery.instance, gui.ordinal(), world, x,y,z);
+    }
+
+    public static void openGui(EntityPlayer player, World world, GuiTypes gui) {
+        openGui(player, world, gui, null);
     }
 
     @Nullable
@@ -39,43 +91,6 @@ public class GuiHandler implements IGuiHandler {
             tile = world.getTileEntity(new BlockPos(x,y,z));
         }
         return type.getClient(player, tile);
-    }
-
-    public enum GuiTypes {
-        CORE(
-                (EntityPlayer player, TileEntity tile)->new ContainerCore(player, tile),
-                (EntityPlayer player, TileEntity tile)->new GuiCore(player, tile)
-        );
-
-        public final boolean usesTile;
-        public final ContainerGetter container;
-        public final GuiGetter gui;
-
-
-        GuiTypes(ContainerGetter container, GuiGetter gui){
-
-            this(container, gui, true);
-
-        }
-        GuiTypes(ContainerGetter container, GuiGetter gui, boolean usesTile){
-            this.usesTile = usesTile;
-            this.container = container;
-            this.gui = gui;
-        }
-
-
-
-        public Container getServer(EntityPlayer player, TileEntity tile) { return this.container == null?null:this.container.operation(player, tile); }
-        public GuiContainer getClient(EntityPlayer player, TileEntity tile) { return this.gui == null?null:this.gui.operation(player, tile); }
-
-        private interface ContainerGetter {
-            Container operation(EntityPlayer player, TileEntity tile);
-        }
-
-        private interface GuiGetter {
-            GuiContainer operation(EntityPlayer player, TileEntity tile);
-        }
-
     }
 
 }
