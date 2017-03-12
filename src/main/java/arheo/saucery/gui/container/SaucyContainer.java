@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
 public abstract class SaucyContainer<T extends SaucyTile> extends Container {
@@ -20,6 +21,11 @@ public abstract class SaucyContainer<T extends SaucyTile> extends Container {
 
     public Slot addOwnSlot(int id, int x, int y) {
         return this.addSlotToContainer(new SaucySlot(this.tile.getItemHandler(null), id, x, y));
+    }
+
+    @Override
+    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+        return this.getSlot(index).getStack();
     }
 
     protected void addPlayerInventory(int x, int y) {

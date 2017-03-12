@@ -8,6 +8,8 @@ import arheo.saucery.gui.GuiHandler.GuiTypes;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.server.DebugLoggingPrintStream;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -57,6 +59,7 @@ public class BlockCore extends SaucyBlockWithTile<TileCore>{
                                      EnumFacing side, float hitX, float hitY, float hitZ) {
         if(!world.isRemote) {
             GuiHandler.openGui(player, world, GuiTypes.CORE, pos);
+            this.getTile(world, pos).findMyAltars();
         }
         return true;
     }
@@ -67,7 +70,6 @@ public class BlockCore extends SaucyBlockWithTile<TileCore>{
         super.initModel();
         ClientRegistry.bindTileEntitySpecialRenderer(TileCore.class, new RecipeRenderer());
     }
-
 
 
 }

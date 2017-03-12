@@ -1,12 +1,16 @@
 package arheo.saucery.blocks.tile;
 
+import arheo.saucery.Saucery;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.items.ItemStackHandler;
 
 
@@ -42,6 +46,8 @@ public class TileCore extends SaucyTileContainer implements ITickable {
     public boolean canInsertItem(ItemStack stack, int slot) {
         return stack.getItem() == Items.BOOK;
     }
+
+
 
     @Override
     public int getStackSizeLimit(int slot) {
@@ -136,4 +142,31 @@ public class TileCore extends SaucyTileContainer implements ITickable {
         this.flipA += (f - this.flipA) * 0.9F;
         this.pageFlip += this.flipA;
     }
+
+    //TEMPSTUFF
+
+    public int findMyAltars(){
+        int bx = pos.getX();
+        int by = pos.getY();
+        int bz = pos.getZ();
+        //int altarnum = 0;
+        int altars = 0;
+
+        for(int x = -2; x < 3; x++){
+            for(int z = -2; z < 3; z++){
+                if(x != -1 && x != 0 && x != 1 && z != -1 && z != 0 && z != 1) {
+                    BlockPos bpos = new BlockPos(bx+x, by, bz+z);
+                    if(world.getBlockState(bpos).getBlock() == Blocks.COBBLESTONE) {
+                        altars++;
+                    }
+                }
+            }
+        }
+        Saucery.logger.info(altars);
+        return altars;
+
+    }
+
+    //TEMPSTUFF
+
 }
